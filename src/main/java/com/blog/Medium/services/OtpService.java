@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.blog.Medium.model.User;
@@ -24,8 +26,10 @@ public class OtpService {
         return otp;
     }
 
-    public boolean verifyOtp(String email, String otp) {
-        User user = userService.findByEmail(email);
+    public boolean verifyOtp(String otp) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userService.findByUserName(username);
         if (user != null && otp.equals(user.getOtp()) && LocalDateTime.now().isBefore(user.getOtpExpiry())) {
             user.setVerified(true);
             user.setOtp(null); 

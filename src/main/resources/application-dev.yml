@@ -16,3 +16,8 @@ spring:
           auth: true
           starttls:
             enable: true
+
+cloudinary:
+  cloud_name: drgvpceli 
+  api_key: 891446284987847
+  api_secret: -vTa6qcHbPzhswoJvByLKadI9dM

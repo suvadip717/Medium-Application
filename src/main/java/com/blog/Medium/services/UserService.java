@@ -1,6 +1,8 @@
 package com.blog.Medium.services;
 
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
@@ -11,7 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.blog.Medium.config.CloudinaryConfig;
 import com.blog.Medium.model.User;
 import com.blog.Medium.repository.UserRepository;
 
@@ -25,6 +29,9 @@ public class UserService {
     @Autowired
     SendEmailService emailService;
 
+    @Autowired
+    CloudinaryConfig cloudinaryConfig;
+
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Transactional
@@ -32,6 +39,7 @@ public class UserService {
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRoles(Arrays.asList("USER"));
+            user.setAvater("https://res.cloudinary.com/drgvpceli/image/upload/v1731496806/kjodl2qpotsrrlfymxfb.jpg");
             userRepository.save(user);
             emailService.sendVerificationEmail(user);
             return user;
@@ -40,12 +48,18 @@ public class UserService {
         }
     }
 
-    public void sentOtp() {
+    public String sentOtp() {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
             User user = userRepository.findByUsername(username);
-            emailService.sendVerificationEmail(user);
+            if(!user.isVerified()){
+                emailService.sendVerificationEmail(user);
+            }
+            else{
+                return "User already verified";
+            }
+            return "Sending OTP Successfully";
         } catch (Exception e) {
             throw new ELException("Error sending otp", e);
         }
@@ -55,12 +69,21 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User updateUser(ObjectId id, User user) {
-        User oldUser = userRepository.findById(id).orElse(new User());
+    @Transactional
+    public User updateUser(User user, MultipartFile avatarFile) throws IOException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User oldUser = userRepository.findByUsername(username);
         if (oldUser != null) {
             oldUser.setUsername(user.getUsername());
             oldUser.setEmail(user.getEmail());
             oldUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            try {
+                Map data = this.cloudinaryConfig.cloudinary().uploader().upload(avatarFile.getBytes(), Map.of());
+                oldUser.setAvater(data.get("url").toString());
+            } catch (Exception e) {
+                throw new ELException("Upload avater image failed");
+            }
             userRepository.save(oldUser);
         }
         return oldUser;

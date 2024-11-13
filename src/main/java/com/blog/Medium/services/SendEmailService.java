@@ -1,8 +1,5 @@
 package com.blog.Medium.services;
 
-// import java.time.LocalDateTime;
-// import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,11 +15,9 @@ public class SendEmailService {
     @Autowired
     OtpService otpService;
 
-
     public void sendVerificationEmail(User user){
         String otp = otpService.generateOtp(user);
-        sendEmail(user.getEmail(), "OTP Verification",
-                "Your OTP is " + otp + ". It will expire in 5 minutes.");
+        sendEmail(user.getEmail(), "OTP Verification", "Your OTP for verification email is " + otp + ". It will expire in 5 minutes.");
     }
 
     public void sendEmail(String to, String subject, String body) {
