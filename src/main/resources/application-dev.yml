@@ -4,3 +4,8 @@ spring:
       uri: mongodb+srv://destrokalis:Destro2023@cluster0.ioxhi28.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
       database: mediumdb
       auto-index-creation: true
+
+  security:
+    user:
+      name: admin
+      password: admin
