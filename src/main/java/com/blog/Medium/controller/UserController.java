@@ -55,4 +55,10 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid or expired OTP");
     }
 
+    @GetMapping("/sent-otp")
+    public ResponseEntity<?> sentOtp(){
+        userService.sentOtp();
+        return ResponseEntity.status(HttpStatus.OK).body("Sent OTP successfully");
+    }
+
 }

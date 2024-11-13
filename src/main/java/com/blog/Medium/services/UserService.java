@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,7 +36,18 @@ public class UserService {
             emailService.sendVerificationEmail(user);
             return user;
         } catch (Exception e) {
-            throw new ELException("Error occurred while creating the user",e);
+            throw new ELException("Error occurred while creating the user", e);
+        }
+    }
+
+    public void sentOtp() {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            User user = userRepository.findByUsername(username);
+            emailService.sendVerificationEmail(user);
+        } catch (Exception e) {
+            throw new ELException("Error sending otp", e);
         }
     }
 
@@ -61,10 +74,11 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public User findByUserName(String username){
+    public User findByUserName(String username) {
         return userRepository.findByUsername(username);
     }
-    public User findByEmail(String email){
+
+    public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 }
