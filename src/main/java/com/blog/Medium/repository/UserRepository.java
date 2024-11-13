@@ -9,4 +9,6 @@ import com.blog.Medium.model.User;
 @Repository
 public interface UserRepository extends MongoRepository<User, ObjectId> {
     User findByUsername(String username);
+    User findByEmail(String email);
+    User findByOtp(String otp);
 } 

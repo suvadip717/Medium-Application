@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.blog.Medium.model.BlogEntry;
-import com.blog.Medium.model.User;
 import com.blog.Medium.repository.BlogRepository;
 
 import jakarta.el.ELException;
@@ -20,8 +19,8 @@ public class BlogService {
     @Autowired
     BlogRepository blogRepository;
 
-    @Autowired
-    UserService userService;
+    // @Autowired
+    // UserService userService;
 
     @Transactional
     public BlogEntry addBlog(BlogEntry blog, String username) {

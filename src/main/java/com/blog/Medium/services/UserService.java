@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.blog.Medium.model.User;
 import com.blog.Medium.repository.UserRepository;
@@ -19,21 +20,26 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    SendEmailService emailService;
+
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    @Transactional
     public User saveNewUser(User user) {
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRoles(Arrays.asList("USER"));
             userRepository.save(user);
+            emailService.sendVerificationEmail(user);
             return user;
         } catch (Exception e) {
-            throw new ELException("Getting error while creating user");
+            throw new ELException("Error occurred while creating the user",e);
         }
     }
 
     public User saveUser(User user) {
-        return user;
+        return userRepository.save(user);
     }
 
     public User updateUser(ObjectId id, User user) {
@@ -57,5 +63,8 @@ public class UserService {
 
     public User findByUserName(String username){
         return userRepository.findByUsername(username);
+    }
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 }

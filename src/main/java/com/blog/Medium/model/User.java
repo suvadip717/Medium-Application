@@ -1,5 +1,6 @@
 package com.blog.Medium.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +26,13 @@ public class User {
     @NonNull
     private String username;
     @NonNull
+    @Indexed(unique = true)
     private String email;
     @NonNull
     private String password;
+    private boolean verified; 
+    private String otp;
+    private LocalDateTime otpExpiry;
     private List<String> roles;
     @DBRef
     private List<BlogEntry> blogs = new ArrayList<>();
