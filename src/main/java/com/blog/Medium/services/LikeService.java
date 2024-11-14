@@ -60,6 +60,6 @@ public class LikeService {
     public long getLikesCount(ObjectId blogId) {
         return blogService.getIdBlog(blogId)
                 .map(blog -> blog.getLikes().size())
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new RuntimeException("Blog not found"));
     }
 }

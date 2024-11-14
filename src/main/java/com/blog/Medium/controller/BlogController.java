@@ -1,5 +1,7 @@
 package com.blog.Medium.controller;
 
+import java.io.IOException;
+
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.blog.Medium.model.BlogEntry;
 import com.blog.Medium.services.BlogService;
@@ -34,13 +38,17 @@ public class BlogController {
 
     @DeleteMapping("/{id}")
     public String deleteBlog(@PathVariable ObjectId id){
-        blogService.deleteBlog(id);
-        return "Blog delete sucessfully";
+        String message = blogService.deleteBlog(id);
+        return message;
     }
 
     @PutMapping("/update-blog/{id}")
-    public BlogEntry updateBlog(@RequestBody BlogEntry blog, @PathVariable ObjectId id){
-        BlogEntry newBlog = blogService.updateBlog(blog, id);
-        return newBlog;
+    public BlogEntry updateBlog(@RequestParam String title, @RequestParam String subTitle, @RequestParam String content, @RequestParam MultipartFile blogImage, @PathVariable ObjectId id) throws IOException{
+        BlogEntry blog = new BlogEntry();
+        blog.setTitle(title);
+        blog.setSubTitle(subTitle);
+        blog.setContent(content);
+        BlogEntry updateBlog = blogService.updateBlog(blog, id, blogImage);
+        return updateBlog;
     }
 }
