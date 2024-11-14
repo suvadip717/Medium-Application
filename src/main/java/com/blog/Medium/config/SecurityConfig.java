@@ -19,6 +19,7 @@ public class SecurityConfig {
         http.csrf(customizer-> customizer.disable())
             .authorizeHttpRequests(request -> request
             .requestMatchers("/public/**").permitAll()
+            .requestMatchers("/admin/**").hasRole("ADMIN")
             .anyRequest().authenticated())
             .httpBasic(Customizer.withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

@@ -97,8 +97,9 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public void deleteUser(ObjectId id) {
-        userRepository.deleteById(id);
+    public String delUserId(ObjectId userId){
+        userRepository.deleteById(userId);
+        return "Delete user Successfully";
     }
 
     public User findByUserName(String username) {
