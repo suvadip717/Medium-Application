@@ -24,6 +24,7 @@ public class BlogEntry {
     private String blogImage;
     private String content;
     private String auther;
+    private String autherImage;
     private List<Comment> comments = new ArrayList<>();
     private List<Like> likes = new ArrayList<>();
     private LocalDateTime date;

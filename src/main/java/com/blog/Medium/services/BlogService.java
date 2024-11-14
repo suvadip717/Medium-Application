@@ -41,6 +41,7 @@ public class BlogService {
             try {
                 blog.setDate(LocalDateTime.now());
                 blog.setAuther(user.getUsername());
+                blog.setAutherImage(user.getAvater());
                 blog.setBlogImage("https://res.cloudinary.com/drgvpceli/image/upload/v1731564102/strjreh0tcxkrmiv2pjd.jpg");
                 BlogEntry saveBlog = blogRepository.save(blog);
                 user.getBlogs().add(saveBlog);
@@ -63,7 +64,7 @@ public class BlogService {
         User user = userService.findByUserName(username);
         Optional<BlogEntry> blogEntry = blogRepository.findById(id);
         BlogEntry blog = blogEntry.get();
-        
+
         if (user.isVerified() && blog.getAuther().equals(username)) {
             blogRepository.deleteById(id);
             return "Blog Delete successfully";
