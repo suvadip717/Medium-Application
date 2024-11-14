@@ -17,7 +17,7 @@ public class SendEmailService {
 
     public void sendVerificationEmail(User user){
         String otp = otpService.generateOtp(user);
-        sendEmail(user.getEmail(), "OTP Verification", "Your OTP for verification email is " + otp + ". It will expire in 5 minutes.");
+        sendEmail(user.getEmail(), "OTP Verification", "Your Email is not varified, please verified your email. OTP for verification email is " + otp + ". It will expire in 5 minutes.");
     }
 
     public void sendEmail(String to, String subject, String body) {

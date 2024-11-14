@@ -74,10 +74,14 @@ public class UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User oldUser = userRepository.findByUsername(username);
+        String email = oldUser.getEmail();
         if (oldUser != null) {
             oldUser.setUsername(user.getUsername());
-            oldUser.setEmail(user.getEmail());
             oldUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            oldUser.setEmail(user.getEmail());
+            if(!oldUser.getEmail().equals(email)){
+                emailService.sendVerificationEmail(oldUser);
+            }
             try {
                 Map data = this.cloudinaryConfig.cloudinary().uploader().upload(avatarFile.getBytes(), Map.of());
                 oldUser.setAvater(data.get("url").toString());
