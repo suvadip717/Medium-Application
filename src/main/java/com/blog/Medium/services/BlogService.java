@@ -19,13 +19,12 @@ public class BlogService {
     @Autowired
     BlogRepository blogRepository;
 
-    // @Autowired
-    // UserService userService;
+    @Autowired
+    UserService userService;
 
     @Transactional
-    public BlogEntry addBlog(BlogEntry blog, String username) {
+    public BlogEntry addBlog(BlogEntry blog) {
         try {
-            // User user = userService.findByUserName(username);
             blog.setDate(LocalDateTime.now());
             BlogEntry saveBlog = blogRepository.save(blog);
             return saveBlog;
@@ -54,5 +53,9 @@ public class BlogService {
 
     public Optional<BlogEntry> getIdBlog(ObjectId id) {
         return blogRepository.findById(id);
+    }
+
+    public BlogEntry saveBlogEntry(BlogEntry blog){
+        return blogRepository.save(blog);
     }
 }
