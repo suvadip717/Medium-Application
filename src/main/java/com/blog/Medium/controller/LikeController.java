@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.blog.Medium.model.BlogEntry;
+import com.blog.Medium.model.Like;
 import com.blog.Medium.services.LikeService;
 
 @RestController
@@ -19,7 +19,7 @@ public class LikeController {
     private LikeService likeService;
 
     @PostMapping
-    public BlogEntry addLikes(@PathVariable ObjectId blogId){
+    public Like addLikes(@PathVariable ObjectId blogId){
         return likeService.addLike(blogId);
     }
 

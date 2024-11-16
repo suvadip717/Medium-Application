@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.blog.Medium.model.BlogEntry;
 import com.blog.Medium.model.Comment;
 import com.blog.Medium.services.CommentService;
 
@@ -23,13 +22,13 @@ public class CommentController {
     private CommentService commentService;
 
     @PostMapping
-    public BlogEntry addComment(@PathVariable ObjectId blogId, @RequestBody Comment comment){
-        return commentService.addComment(blogId, comment);
+    public Comment addComment(@PathVariable ObjectId blogId, @RequestBody String content){
+        return commentService.addComment(blogId, content);
     }
     
     @GetMapping
     public List<Comment> getComment(@PathVariable ObjectId blogId){
-        return commentService.getCommentsByPost(blogId);
+        return commentService.getCommentsByBlog(blogId);
     }
 
     @DeleteMapping
