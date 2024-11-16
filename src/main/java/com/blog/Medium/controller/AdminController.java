@@ -14,16 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.Medium.model.User;
 import com.blog.Medium.services.AdminService;
-import com.blog.Medium.services.UserService;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
     private AdminService adminService;
-
-    @Autowired
-    private UserService userService;
 
     @PostMapping("/create-admin")
     public User createAdmin(@RequestBody User user){
@@ -38,7 +34,7 @@ public class AdminController {
 
     @DeleteMapping("/del-user/{userId}")
     public String deleteUser(@PathVariable ObjectId userId){
-        String message = userService.delUserId(userId);
+        String message = adminService.deletUser(userId);
         return message;
     }
 

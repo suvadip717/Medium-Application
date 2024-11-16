@@ -2,6 +2,7 @@ package com.blog.Medium.services;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,18 @@ public class AdminService {
     SendEmailService emailService;
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @SuppressWarnings("unused")
+    public String deletUser(ObjectId userId){
+        Optional<User> OptionalUser = userRepository.findById(userId);
+        if(OptionalUser != null){
+            User user = OptionalUser.get();
+            String username = user.getUsername().toString();
+            userRepository.deleteById(userId);
+            return username + " is delete successfully";
+        }
+        return "User not found";
+    }
 
     public String delBlogId(ObjectId blogId){
         blogRepository.deleteById(blogId);

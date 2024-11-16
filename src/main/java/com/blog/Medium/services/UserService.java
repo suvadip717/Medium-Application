@@ -3,7 +3,6 @@ package com.blog.Medium.services;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,12 +92,18 @@ public class UserService {
         return oldUser;
     }
 
-    public Optional<User> getIdUser(ObjectId id) {
-        return userRepository.findById(id);
+    public User getUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+        return user;
     }
 
-    public String delUserId(ObjectId userId){
-        userRepository.deleteById(userId);
+    public String delUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+        userRepository.deleteById(user.getId());
         return "Delete user Successfully";
     }
 
