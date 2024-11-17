@@ -18,7 +18,10 @@ public class Comment {
     @Id
     private ObjectId id;
     private ObjectId blogId;
+    private String blogTitle;
     private ObjectId userId;
+    private String userName;
+    private String userAvater;
     private String content;
     private LocalDateTime createdAt;
 }

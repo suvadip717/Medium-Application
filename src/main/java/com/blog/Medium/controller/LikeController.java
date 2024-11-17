@@ -1,5 +1,7 @@
 package com.blog.Medium.controller;
 
+import java.util.List;
+
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +28,11 @@ public class LikeController {
     @DeleteMapping
     public void removeLike(@PathVariable ObjectId blogId){
         likeService.removeLike(blogId);
+    }
+
+    @GetMapping
+    public List<Like> getLikes(@PathVariable ObjectId blogId){
+       return likeService.getLikesByBlog(blogId);
     }
 
     @GetMapping("/count")

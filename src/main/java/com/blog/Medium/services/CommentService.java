@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.blog.Medium.model.BlogEntry;
 import com.blog.Medium.model.Comment;
 import com.blog.Medium.model.User;
 import com.blog.Medium.repository.CommentRepository;
@@ -22,6 +23,9 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private BlogService blogService;
+
     public Comment addComment(ObjectId blogId, String content) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -30,13 +34,21 @@ public class CommentService {
         if (!user.isVerified()) {
             throw new RuntimeException("User is not verified");
         }
-      
-        Comment comment = new Comment(null,blogId, user.getId(), content, LocalDateTime.now());
+
+        BlogEntry blog = blogService.getIdBlog(blogId);
+        Comment comment = new Comment(null, blogId, blog.getTitle(), user.getId(), user.getUsername(), user.getAvater(),
+                content, LocalDateTime.now());
+        blog.setComments(blog.getComments() + 1);
+        blogService.saveBlogEntry(blog);
         return commentRepository.save(comment);
     }
 
     public List<Comment> getCommentsByBlog(ObjectId blogId) {
         return commentRepository.findByBlogId(blogId);
+    }
+
+    public Long getCommentsCount(ObjectId blogId) {
+        return (long) commentRepository.findByBlogId(blogId).size();
     }
 
     public void deleteComment(ObjectId blogId) {
@@ -47,6 +59,9 @@ public class CommentService {
             throw new RuntimeException("User is not verified");
         }
 
+        BlogEntry blog = blogService.getIdBlog(blogId);
         commentRepository.deleteByBlogIdAndUserId(blogId, user.getId());
+        blog.setComments(blog.getComments() - 1);
+        blogService.saveBlogEntry(blog);
     }
 }

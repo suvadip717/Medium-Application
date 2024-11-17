@@ -1,7 +1,6 @@
 package com.blog.Medium.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,7 @@ public class PublicController {
     }
 
     @GetMapping("{id}")
-    public Optional<BlogEntry> getBlog(@PathVariable ObjectId id){
+    public BlogEntry getBlog(@PathVariable ObjectId id){
         return blogService.getIdBlog(id);
     }
 }

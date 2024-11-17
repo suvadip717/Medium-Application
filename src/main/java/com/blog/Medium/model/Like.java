@@ -18,6 +18,9 @@ public class Like {
     @Id
     private ObjectId id;
     private ObjectId blogId;
+    private String blogTitle;
     private ObjectId userId;
+    private String userAvtar;
+    private String userName;
     private LocalDateTime likeAt;
 }

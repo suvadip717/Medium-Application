@@ -31,6 +31,11 @@ public class CommentController {
         return commentService.getCommentsByBlog(blogId);
     }
 
+    @GetMapping("/count")
+    public Long getCount(@PathVariable ObjectId blogId){
+        return commentService.getCommentsCount(blogId);
+    }
+
     @DeleteMapping
     public void removeComment(@PathVariable ObjectId blogId){
         commentService.deleteComment(blogId);

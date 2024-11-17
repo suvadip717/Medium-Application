@@ -1,8 +1,6 @@
 package com.blog.Medium.model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -25,7 +23,7 @@ public class BlogEntry {
     private String content;
     private String auther;
     private String autherImage;
-    private List<Comment> comments = new ArrayList<>();
-    private List<Like> likes = new ArrayList<>();
+    private Long comments ;
+    private Long likes ;
     private LocalDateTime date;
 }

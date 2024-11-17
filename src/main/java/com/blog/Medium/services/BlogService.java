@@ -43,6 +43,8 @@ public class BlogService {
                 blog.setAuther(user.getUsername());
                 blog.setAutherImage(user.getAvater());
                 blog.setBlogImage("https://res.cloudinary.com/drgvpceli/image/upload/v1731564102/strjreh0tcxkrmiv2pjd.jpg");
+                blog.setLikes(0l);
+                blog.setComments(0l);
                 BlogEntry saveBlog = blogRepository.save(blog);
                 user.getBlogs().add(saveBlog);
                 userService.saveUser(user);
@@ -55,7 +57,8 @@ public class BlogService {
     }
 
     public List<BlogEntry> allBlogs() {
-        return blogRepository.findAll();
+        List<BlogEntry> blogs = blogRepository.findAll();
+        return blogs;
     }
 
     public String deleteBlog(ObjectId id) {
@@ -93,8 +96,14 @@ public class BlogService {
         throw new RuntimeException("User is not verified");
     }
 
-    public Optional<BlogEntry> getIdBlog(ObjectId id) {
-        return blogRepository.findById(id);
+    public BlogEntry getIdBlog(ObjectId blogId) {
+        Optional<BlogEntry> optionalBlog = blogRepository.findById(blogId);
+        if(optionalBlog.isPresent()){
+            BlogEntry blog = optionalBlog.get();
+            blogRepository.save(blog);
+            return blog;
+        }
+        throw new RuntimeException("Blog not found");
     }
 
     public BlogEntry saveBlogEntry(BlogEntry blog) {
