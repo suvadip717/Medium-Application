@@ -60,8 +60,9 @@ public class CommentService {
         }
 
         BlogEntry blog = blogService.getIdBlog(blogId);
+        Integer count = commentRepository.findByBlogId(blogId).size();
         commentRepository.deleteByBlogIdAndUserId(blogId, user.getId());
-        blog.setComments(blog.getComments() - 1);
+        blog.setComments(blog.getComments() - count);
         blogService.saveBlogEntry(blog);
     }
 }
