@@ -21,4 +21,6 @@ cloudinary:
   cloud_name: dgjpzh1sg
   api_key: 684443973583188
   api_secret: yd8aN838DXz6ObFDsKn2HAZS2Qw
-  
+
+server:
+  port: 8080
