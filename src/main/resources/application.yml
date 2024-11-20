@@ -5,4 +5,4 @@ spring:
     name: Medium
   profiles:
     active:
-    - "dev"
+    - "prod"
