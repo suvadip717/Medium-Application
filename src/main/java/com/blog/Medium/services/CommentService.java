@@ -36,7 +36,7 @@ public class CommentService {
         }
 
         BlogEntry blog = blogService.getIdBlog(blogId);
-        Comment comment = new Comment(null, blogId, blog.getTitle(), user.getId(), user.getUsername(), user.getAvater(),
+        Comment comment = new Comment(null, blogId, blog.getTitle(), user.getId(), user.getUsername(), user.getAvatar(),
                 content, LocalDateTime.now());
         blog.setComments(blog.getComments() + 1);
         blogService.saveBlogEntry(blog);

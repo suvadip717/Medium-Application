@@ -30,7 +30,7 @@ public class User {
     private String email;
     @NonNull
     private String password;
-    private String avater;
+    private String avatar;
     private boolean verified; 
     private String otp;
     private LocalDateTime otpExpiry;

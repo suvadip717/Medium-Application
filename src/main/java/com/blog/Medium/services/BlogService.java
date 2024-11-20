@@ -41,7 +41,7 @@ public class BlogService {
             try {
                 blog.setDate(LocalDateTime.now());
                 blog.setAuther(user.getUsername());
-                blog.setAutherImage(user.getAvater());
+                blog.setAutherImage(user.getAvatar());
                 blog.setBlogImage("https://res.cloudinary.com/drgvpceli/image/upload/v1731564102/strjreh0tcxkrmiv2pjd.jpg");
                 blog.setLikes(0l);
                 blog.setComments(0l);

@@ -1,0 +1,24 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://destrokalis:Des2024tro@cluster0.ioxhi28.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      database: mediumdb
+      auto-index-creation: true
+  
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: suvadip.webshark@gmail.com
+    password: fotf mprl eutw lfrn
+    properties: 
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+cloudinary:
+  cloud_name: dgjpzh1sg
+  api_key: 684443973583188
+  api_secret: yd8aN838DXz6ObFDsKn2HAZS2Qw
+  

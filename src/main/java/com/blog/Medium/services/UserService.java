@@ -37,7 +37,7 @@ public class UserService {
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRoles(Arrays.asList("USER"));
-            user.setAvater("https://res.cloudinary.com/drgvpceli/image/upload/v1731496806/kjodl2qpotsrrlfymxfb.jpg");
+            user.setAvatar("https://res.cloudinary.com/drgvpceli/image/upload/v1731496806/kjodl2qpotsrrlfymxfb.jpg");
             userRepository.save(user);
             emailService.sendVerificationEmail(user);
             return user;
@@ -82,7 +82,7 @@ public class UserService {
             }
             try {
                 Map data = this.cloudinaryConfig.cloudinary().uploader().upload(avatarFile.getBytes(), Map.of());
-                oldUser.setAvater(data.get("url").toString());
+                oldUser.setAvatar(data.get("url").toString());
             } catch (Exception e) {
                 throw new ELException("Upload avater image failed");
             }

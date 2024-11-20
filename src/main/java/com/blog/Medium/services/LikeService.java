@@ -41,7 +41,7 @@ public class LikeService {
         }
 
         BlogEntry blog = blogService.getIdBlog(blogId);
-        Like like = new Like(null, blogId, blog.getTitle(), user.getId(), user.getAvater(), user.getUsername(),
+        Like like = new Like(null, blogId, blog.getTitle(), user.getId(), user.getAvatar(), user.getUsername(),
                 LocalDateTime.now());
         blog.setLikes(blog.getLikes() + 1);
         blogService.saveBlogEntry(blog);

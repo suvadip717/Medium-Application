@@ -56,7 +56,7 @@ public class AdminService {
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRoles(Arrays.asList("USER", "ADMIN"));
-            user.setAvater("https://res.cloudinary.com/drgvpceli/image/upload/v1731496806/kjodl2qpotsrrlfymxfb.jpg");
+            user.setAvatar("https://res.cloudinary.com/drgvpceli/image/upload/v1731496806/kjodl2qpotsrrlfymxfb.jpg");
             userRepository.save(user);
             emailService.sendVerificationEmail(user);
             return user;
