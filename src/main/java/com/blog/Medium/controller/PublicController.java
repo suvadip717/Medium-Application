@@ -45,4 +45,9 @@ public class PublicController {
     public BlogEntry getBlog(@PathVariable ObjectId id){
         return blogService.getIdBlog(id);
     }
+
+    @PostMapping("/get-token")
+    public String login(@RequestBody User user){
+        return userService.verify(user);
+    }
 }

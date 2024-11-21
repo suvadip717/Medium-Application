@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,6 +31,12 @@ public class UserService {
 
     @Autowired
     CloudinaryConfig cloudinaryConfig;
+
+     @Autowired
+    JWTService jwtService;
+
+    @Autowired
+    AuthenticationManager authManager;
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -104,6 +112,15 @@ public class UserService {
         User user = userRepository.findByUsername(username);
         userRepository.deleteById(user.getId());
         return "Delete user Successfully";
+    }
+
+     public String verify(User user){
+        Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+
+        if(authentication.isAuthenticated()){
+            return jwtService.generateToken(user.getUsername());
+        }
+        return "fail";
     }
 
     public User findByUserName(String username) {
